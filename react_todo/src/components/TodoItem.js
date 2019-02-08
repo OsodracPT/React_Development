@@ -24,10 +24,23 @@ export class TodoItem extends Component {
           </input>
           {' '}
           {title}
+          <button
+            onClick={this.props.delTodo.bind(this, id)}
+            style={btnStyle}>x</button>
         </p>
       </div>
     )
   }
+}
+
+const btnStyle = {
+  background: '#e64b5f',
+  color: '#fff',
+  border: 'none',
+  padding: '5px 9px',
+  borderRadius: '50%',
+  cursor: 'pointer',
+  float: 'right'
 }
 
 // PropTypes
