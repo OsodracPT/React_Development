@@ -47,11 +47,12 @@ class App extends Component {
 
   // Delete Todo
   delTodo = (id) => {
-    this.setState({
-      todos: [...this.state.todos.filter(
-        todo => todo.id !== id
-      )]
-    });
+    axios.delete('https://jsonplaceholder.typicode.com/todos/${id}')
+      .then(res => this.setState({
+        todos: [...this.state.todos.filter(
+          todo => todo.id !== id
+        )]
+      }));
   }
 
   render() {
