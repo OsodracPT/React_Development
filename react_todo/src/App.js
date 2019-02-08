@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import { BrowserRouter as Router, Route } from "react-router-dom";
+import axios from "axios";
 import Todos from "./components/Todos";
 import Header from "./components/layout/Header";
 import AddTodo from "./components/AddTodo";
@@ -11,24 +12,16 @@ import "./App.css";
 
 class App extends Component {
   state = {
-    todos: [
-      {
-        id: uuid.v4(),
-        title: "Take the trash out",
-        completed: false
-      },
-      {
-        id: uuid.v4(),
-        title: "Meeting with manager",
-        completed: false
-      },
-      {
-        id: uuid.v4(),
-        title: "Grocerie shopping",
-        completed: false
-      }
-    ]
+    todos: []
   };
+
+  componentDidMount() {
+    axios.get('https://jsonplaceholder.typicode.com/todos?_limit=10')
+      .then(res =>
+        this.setState({
+          todos: res.data
+        }))
+  }
 
   // Toggle Complete
   markComplete = (id) => {
