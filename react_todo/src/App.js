@@ -34,16 +34,15 @@ class App extends Component {
       })
     })
   }
-  //Add Todo
+
   addTodo = (title) => {
-    const newTodo = {
-      id: uuid.v4(),
-      title: title,
-      completed: false
-    }
-    this.setState({
-      todos: [...this.state.todos, newTodo]
-    });
+    axios.post('https://jsonplaceholder.typicode.com/todos',
+      {
+        title: title,
+        completed: false
+      }).then(res => this.setState({
+        todos: [...this.state.todos, res.data]
+      }));
   }
 
   // Delete Todo
