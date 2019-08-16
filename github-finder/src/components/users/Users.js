@@ -24,6 +24,7 @@ export class Users extends Component {
       }
     ]
   };
+
   render() {
     return (
       <div style={userStyle}>
