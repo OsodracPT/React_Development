@@ -4,6 +4,7 @@ import "./App.css";
 import Users from "./components/users/Users";
 import Search from "./components/users/Search";
 import axios from "axios";
+import PropTypes from "prop-types";
 
 class App extends Component {
   state = {
@@ -11,16 +12,31 @@ class App extends Component {
     loading: false
   };
 
-  async componentDidMount() {
-    this.setState({ loading: true });
-    console.log(process.env.REACT_APP_GITHUB_CLIENT_ID);
+  static propTypes = {
+    searchUsers: PropTypes.func.isRequired
+  };
 
-    const res = await axios.get(`https://api.github.com/users?client_id=
+  // async componentDidMount() {
+  //   this.setState({ loading: true });
+  //   console.log(process.env.REACT_APP_GITHUB_CLIENT_ID);
+
+  //   const res = await axios.get(`https://api.github.com/users?client_id=
+  //   ${process.env.REACT_APP_GITHUB_CLIENT_ID}&client_secret=
+  //   ${process.env.REACT_APP_GITHUB_CLIENT_SECRET}`);
+
+  //   this.setState({ users: res.data, loading: false });
+  // }
+
+  // Search GitHub users
+  searchUsers = async text => {
+    this.setState({ loading: true });
+
+    const res = await axios.get(`https://api.github.com/search/users?q=${text}&client_id=
     ${process.env.REACT_APP_GITHUB_CLIENT_ID}&client_secret=
     ${process.env.REACT_APP_GITHUB_CLIENT_SECRET}`);
 
-    this.setState({ users: res.data, loading: false });
-  }
+    this.setState({ users: res.data.items, loading: false });
+  };
 
   render() {
     return (
@@ -28,7 +44,7 @@ class App extends Component {
         <Navbar title="Github Finder" icon="fab fa-github" />
 
         <div className="container">
-          <Search> </Search>
+          <Search searchUsers={this.searchUsers}> </Search>
           <Users loading={this.state.loading} users={this.state.users} />
         </div>
       </div>
