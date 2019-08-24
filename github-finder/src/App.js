@@ -4,16 +4,11 @@ import "./App.css";
 import Users from "./components/users/Users";
 import Search from "./components/users/Search";
 import axios from "axios";
-import PropTypes from "prop-types";
 
 class App extends Component {
   state = {
     users: [],
     loading: false
-  };
-
-  static propTypes = {
-    searchUsers: PropTypes.func.isRequired
   };
 
   // async componentDidMount() {
@@ -38,13 +33,22 @@ class App extends Component {
     this.setState({ users: res.data.items, loading: false });
   };
 
+  //Clear users from state
+  clearUsers = () => this.setState({ users: [], loading: false });
+
   render() {
     return (
       <div className="App">
         <Navbar title="Github Finder" icon="fab fa-github" />
 
         <div className="container">
-          <Search searchUsers={this.searchUsers}> </Search>
+          <Search
+            searchUsers={this.searchUsers}
+            clearUsers={this.clearUsers}
+            showClear={this.state.users.length > 0 ? true : false}
+          >
+            {" "}
+          </Search>
           <Users loading={this.state.loading} users={this.state.users} />
         </div>
       </div>
