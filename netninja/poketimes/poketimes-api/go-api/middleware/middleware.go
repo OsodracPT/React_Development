@@ -65,6 +65,29 @@ func GetAllPost(w http.ResponseWriter, r *http.Request) {
 	json.NewEncoder(w).Encode(payload)
 }
 
+// GetPost get one post
+func GetPost(w http.ResponseWriter, r *http.Request) {
+	w.Header().Set("Context-Type", "application/x-www-form-urlencoded")
+	w.Header().Set("Access-Control-Allow-Origin", "*")
+
+	var post models.Post
+	// we get params with mux.
+	var params = mux.Vars(r)
+
+	// string to primitive.ObjectID
+	id, _ := primitive.ObjectIDFromHex(params["id"])
+
+	// We create filter. If it is unnecessary to sort data for you, you can use bson.M{}
+	filter := bson.M{"_id": id}
+	err := collection.FindOne(context.TODO(), filter).Decode(&post)
+
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	json.NewEncoder(w).Encode(post)
+}
+
 // CreatePost create post route
 func CreatePost(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Context-Type", "application/x-www-form-urlencoded")
