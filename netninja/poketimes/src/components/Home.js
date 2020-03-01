@@ -9,10 +9,10 @@ class Home extends Component {
     const postList = posts.length ? (
       posts.map(post => {
         return (
-          <div className="post card" key={post._id}>
+          <div className="post card" key={post.id}>
             <img src={Pokeball} alt="A pokeball" />
             <div className="card-content">
-              <Link to={"/" + post._id}>
+              <Link to={"/" + post.id}>
                 <span className="card-title red-text">{post.title}</span>
               </Link>
               <p>{post.content}</p>
